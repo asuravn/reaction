@@ -2,6 +2,7 @@ import SimpleSchema from "simpl-schema";
 import Logger from "@reactioncommerce/logger";
 import ensureAccountsManagerGroup from "../util/ensureAccountsManagerGroup.js";
 import ensureSystemManagerGroup from "../util/ensureSystemManagerGroup.js";
+import ensureMarketplaceShopCreatorGroup from "../util/ensureMarketplaceShopCreatorGroup.js";
 import sendWelcomeEmail from "../util/sendWelcomeEmail.js";
 
 const inputSchema = new SimpleSchema({
@@ -78,11 +79,8 @@ export default async function createAccount(context, input) {
   };
   
   if (profile && profile.type === 'shop') {
-    let group = await Groups.findOne({ slug: "marketplace-shop-creator" }, { projection: { _id: 1 } });
-    let groupId = (group && group._id) || null;
-    if (groupId) {
-      account.groups.push(groupId);
-    }
+    const groupId = await ensureMarketplaceShopCreatorGroup(context);
+    account.groups.push(groupId);
   }
 
   let groups = new Set();

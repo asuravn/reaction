@@ -49,7 +49,7 @@ export default async function sendWelcomeEmail(context, input) {
   if (!shop) throw new ReactionError("not-found", "Shop not found");
 
   const copyrightDate = new Date().getFullYear();
-  const type = account.profile && account.profile.type || 'user';
+  const type = account.profile && account.profile.type || 'customer';
   const dataForEmail = {
     // Shop Data
     contactEmail: _.get(shop, "emails[0].address"),
@@ -63,7 +63,7 @@ export default async function sendWelcomeEmail(context, input) {
     },
     shop,
     shopName: shop.name,
-    verificationUrl: type === 'user' ? REACTION_SHOP_PUBLIC_URL : REACTION_ADMIN_PUBLIC_URL
+    verificationUrl: type === 'customer' ? REACTION_SHOP_PUBLIC_URL : REACTION_ADMIN_PUBLIC_URL
   };
 
   const language = (account.profile && account.profile.language) || shop.language;

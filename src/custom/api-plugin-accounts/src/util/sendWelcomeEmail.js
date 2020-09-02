@@ -3,7 +3,7 @@ import SimpleSchema from "simpl-schema";
 import ReactionError from "@reactioncommerce/reaction-error";
 import config from "../config.js";
 
-const { REACTION_IDENTITY_PUBLIC_VERIFY_EMAIL_URL } = config;
+const { REACTION_ADMIN_PUBLIC_URL, REACTION_SHOP_PUBLIC_URL } = config;
 
 const inputSchema = new SimpleSchema({
   accountId: String
@@ -49,6 +49,7 @@ export default async function sendWelcomeEmail(context, input) {
   if (!shop) throw new ReactionError("not-found", "Shop not found");
 
   const copyrightDate = new Date().getFullYear();
+  const type = account.profile && account.profile.type || 'user';
   const dataForEmail = {
     // Shop Data
     contactEmail: _.get(shop, "emails[0].address"),
@@ -62,7 +63,7 @@ export default async function sendWelcomeEmail(context, input) {
     },
     shop,
     shopName: shop.name,
-    verificationUrl: REACTION_IDENTITY_PUBLIC_VERIFY_EMAIL_URL.replace("TOKEN", token)
+    verificationUrl: type === 'user' ? REACTION_SHOP_PUBLIC_URL : REACTION_ADMIN_PUBLIC_URL
   };
 
   const language = (account.profile && account.profile.language) || shop.language;

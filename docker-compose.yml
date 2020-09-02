@@ -33,7 +33,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-db4:/data/db
+      - mongo-myanbur:/data/db
 
 volumes:
-  mongo-db4:
+  mongo-myanbur:

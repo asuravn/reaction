@@ -33,6 +33,8 @@ export default async function register(api) {
               table: {
                 headers: {
                   id: "Database ID",
+                  status: "Status",
+                  subscription: "Subscription",
                   date: "Creation Date",
                   name: "Name",
                   owner: "Owner",

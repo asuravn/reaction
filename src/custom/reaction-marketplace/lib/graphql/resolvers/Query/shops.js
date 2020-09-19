@@ -17,7 +17,7 @@ export default async function shops(_, args, context, info) {
     collection,
     pipeline
   } = await context.queries.shops(context, args);
-
+  
   return getPaginatedResponseFromAggregate(collection, pipeline, args, {
     includeHasNextPage: wasFieldRequested("pageInfo.hasNextPage", info),
     includeHasPreviousPage: wasFieldRequested("pageInfo.hasPreviousPage", info),

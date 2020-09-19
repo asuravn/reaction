@@ -10,9 +10,9 @@
 export default async function shops(context) {
   const { collections, accountId } = context;
   const { Shops } = collections;
-
   await context.validatePermissions("reaction:legacy:shops", "create", { shopId: null });
 
+  const isAdmin = await context.userHasPermission("reaction:legacy:shops", 'marketplace', { shopId: null });
   return {
     collection: Shops,
     pipeline: [
@@ -51,7 +51,7 @@ export default async function shops(context) {
         // Identify the owner's default e-mail address
         $match: {
           "account.emails.provides": "default",
-          "account._id": accountId
+          "account._id": isAdmin ? {'$ne': null} : accountId
         }
       }, {
         // Extract the e-mail address

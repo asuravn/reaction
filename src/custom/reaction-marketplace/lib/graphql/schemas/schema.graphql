@@ -40,6 +40,12 @@ extend type Shop {
 
     "The amount of products that the shop contains"
     productCount: Int
+
+    "The subscription type"
+    subscription: String
+
+    "The shop status"
+    active: Boolean
 }
 
 "A connection edge in which each node is a `Shop` object"
